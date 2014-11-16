@@ -1,0 +1,10 @@
+require 'English'
+require 'optparse'
+require_relative '../app/runner'
+
+parser = OptionParser.new {|opt|
+  opt.on('-d', '--transition-duration=DURATION', Float, 'Transition duration(seconds)')
+}
+options = parser.getopts(ARGV)
+
+Runner.new(options).run
