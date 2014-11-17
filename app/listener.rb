@@ -5,13 +5,23 @@ require_relative 'lighter'
 class Listener < LEAP::Motion::WS
   def initialize(lighter:)
     super()
-    @lighter = lighter
+    @lighting = false
+    @lighter = Fiber.new {|hue, saturation, brightness|
+      loop do
+        $stderr.puts hue
+        lighter.light hue: hue, saturation: saturation, brightness: brightness
+        $stderr.puts 'after light'
+        Fiber.yield
+      end
+    }
   end
 
   def on_frame(frame)
+    return if @lighting
     unless hand = frame.hands.first
       return
     end
+    @lighting = true
 
     x, y, _ = hand.palmNormal
     x = -x if x > 0
@@ -27,6 +37,8 @@ class Listener < LEAP::Motion::WS
     bri_ratio = 1.0 if bri_ratio > 1
     brightness = (255 * bri_ratio).round
 
-    @lighter.light hue: hue, saturation: saturation, brightness: brightness
+    @lighter.resume hue, saturation, brightness
+
+    @lighting = false
   end
 end
