@@ -14,8 +14,8 @@ class Lighter
 
   def light(hue:, saturation: nil, brightness: nil)
     params = {hue: hue}
-    params[:sat] = saturation if saturation
-    params[:bri] = brightness if brightness
+    # params[:sat] = saturation if saturation
+    # params[:bri] = brightness if brightness
     $stderr.puts params.inspect if $DEBUG or $VERBOSE
     @light.set_state(params, (@transition_duration * 10).round)
   end
