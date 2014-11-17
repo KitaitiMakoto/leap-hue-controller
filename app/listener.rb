@@ -9,7 +9,6 @@ class Listener < LEAP::Motion::WS
   end
 
   def on_frame(frame)
-    return if @lighter.transiting
     unless hand = frame.hands.first
       return
     end
