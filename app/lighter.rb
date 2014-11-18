@@ -4,7 +4,7 @@ class Lighter
   MAX_HUE = 65535
   FPS = 30
 
-  attr_reader :transiting
+  attr_reader :transiting, :transition_duration
 
   def initialize(transition_duration:)
     @transition_duration = transition_duration
