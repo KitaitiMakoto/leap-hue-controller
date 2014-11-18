@@ -13,10 +13,6 @@ class Lighter
   end
 
   def light(hue:, saturation: nil, brightness: nil)
-    @transiting = true
-    EM.add_timer @transition_duration do
-      @transiting = false
-    end
     params = {hue: hue}
     params[:sat] = saturation if saturation
     params[:bri] = brightness if brightness

@@ -1,15 +1,21 @@
 require 'matrix'
+require 'thread'
 require 'leap-motion-ws'
 require_relative 'lighter'
 
 class Listener < LEAP::Motion::WS
   def initialize(lighter:)
     super()
-    @lighter = lighter
+    @queue = SizedQueue.new(1)
+    Thread.start lighter, @queue do |lighter, queue|
+      loop do
+        hue, saturation, brightness = queue.pop
+        lighter.light hue: hue, saturation: saturation, brightness: brightness
+      end
+    end
   end
 
   def on_frame(frame)
-    return if @lighter.transiting
     unless hand = frame.hands.first
       return
     end
@@ -28,6 +34,6 @@ class Listener < LEAP::Motion::WS
     bri_ratio = 1.0 if bri_ratio > 1
     brightness = (255 * bri_ratio).round
 
-    @lighter.light hue: hue, saturation: saturation, brightness: brightness
+    @queue.push [hue, saturation, brightness]
   end
 end
