@@ -1,24 +1,19 @@
 require 'matrix'
-require 'thread'
+require 'my_drip'
 require 'leap-motion-ws'
 require_relative 'lighter'
 
 class Listener < LEAP::Motion::WS
+  TAG = 'leap-hue-controller'
+
   def initialize(lighter:)
     super()
-    @queue = SizedQueue.new(1)
-    Thread.start lighter, @queue do |lighter, queue|
+    MyDrip.invoke
+    Thread.start lighter do |lighter|
       loop do
-        hue, saturation, brightness = queue.pop
-        $stderr.puts hue
+        hue, saturation, brightness = MyDrip.head(1, TAG)[0][1]
         lighter.light hue: hue, saturation: saturation, brightness: brightness
         sleep lighter.transition_duration
-      end
-    end
-    Thread.start @queue do |queue|
-      loop do
-        queue.pop
-        $stderr.puts "NULL"
       end
     end
   end
@@ -42,6 +37,6 @@ class Listener < LEAP::Motion::WS
     bri_ratio = 1.0 if bri_ratio > 1
     brightness = (255 * bri_ratio).round
 
-    @queue.push [hue, saturation, brightness]
+    MyDrip.write [hue, saturation, brightness], TAG
   end
 end
