@@ -10,7 +10,14 @@ class Listener < LEAP::Motion::WS
     Thread.start lighter, @queue do |lighter, queue|
       loop do
         hue, saturation, brightness = queue.pop
+        $stderr.puts hue
         lighter.light hue: hue, saturation: saturation, brightness: brightness
+      end
+    end
+    Thread.start @queue do |queue|
+      loop do
+        queue.pop
+        $stderr.puts "NULL"
       end
     end
   end
