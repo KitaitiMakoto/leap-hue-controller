@@ -22,3 +22,8 @@ Change the number of fingers held up.
 ### Brightness ###
 
 Make hand far away to increase linghtening.
+
+Slides
+------
+
+http://goo.gl/QGQTcW
