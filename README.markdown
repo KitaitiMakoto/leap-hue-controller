@@ -46,16 +46,21 @@ Setting up
 
     $ gem install bundler
 
-### 2. Installing dependent RubyGems ###
+### 2. Cloning repository ###
+
+    $ git clone https://github.com/KitaitiMakoto/leap-hue-controller.git
+    $ cd leap-hue-controller
+
+### 3. Installing dependent RubyGems ###
 
     $ bundle install --path=deps
 
-### 3. Setting up Hue ###
+### 4. Setting up Hue ###
 
 1. Press button on Hue bridge
 2. Execute some Hue command:  
    `$ bundle exec hue all on`
 
-### 4. Starting program ###
+### 5. Starting program ###
 
     $ bundle exec ruby ./bin/leap-hue-controller
