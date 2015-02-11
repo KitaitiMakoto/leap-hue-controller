@@ -5,6 +5,22 @@ Start
 -----
 
     $ bundle exec ruby ./bin/leap-hue-controller
+    $ bundle exec ruby ./bin/leap-hue-controller --transition-duration=0.4
+    $ bundle exec ruby ./bin/leap-hue-controller --delay=0.7
+    $ bundle exec ruby ./bin/leap-hue-controller --transition-duration=0.2 --delay=1
+
+Press ctrl+C to stop.
+
+### Options ###
+
+#### transition-duration ####
+
+Duration to transite to target state(hue, saturation brightness) in seconds. Defaults to 0.4.
+If you want to make lights respond more quickly, set smaller value.
+
+#### delay ####
+Delayed time to change the state of a light from previous one in seconds. Defaults to 0.
+If you want to delay the timing each light responds to your manipulation, set positive value.
 
 Manipulation
 ------------
