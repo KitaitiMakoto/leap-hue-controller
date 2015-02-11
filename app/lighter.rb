@@ -8,7 +8,7 @@ class Lighter
   def initialize(transition_duration:)
     @transition_duration = transition_duration
     @transiting = false
-    @light = Hue::Client.new.lights.first
+    @lights = Hue::Client.new.lights
   end
 
   def light(hue:, saturation: nil, brightness: nil)
@@ -20,6 +20,8 @@ class Lighter
     params[:sat] = saturation if saturation
     params[:bri] = brightness if brightness
     $stderr.puts params.inspect if $DEBUG or $VERBOSE
-    @light.set_state(params, (@transition_duration * 10).round)
+    @lights.each do |light|
+      light.set_state(params, (@transition_duration * 10).round)
+    end
   end
 end
