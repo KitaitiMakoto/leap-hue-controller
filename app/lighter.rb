@@ -5,8 +5,9 @@ class Lighter
 
   attr_reader :transiting
 
-  def initialize(transition_duration:)
+  def initialize(transition_duration:, delay: 0)
     @transition_duration = transition_duration
+    @delay = delay
     @transiting = false
     @lights = Hue::Client.new.lights
   end
@@ -20,8 +21,14 @@ class Lighter
     params[:sat] = saturation if saturation
     params[:bri] = brightness if brightness
     $stderr.puts params.inspect if $DEBUG or $VERBOSE
-    @lights.each do |light|
-      light.set_state(params, (@transition_duration * 10).round)
+    @lights.each_with_index do |light, index|
+      if @delay.zero?
+        light.set_state(params, (@transition_duration * 10).round)
+      else
+        EM.add_timer @delay * index do
+          light.set_state(params, (@transition_duration * 10).round)
+        end
+      end
     end
   end
 end

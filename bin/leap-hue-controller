@@ -4,6 +4,7 @@ require_relative '../app/runner'
 
 parser = OptionParser.new {|opt|
   opt.on('-d', '--transition-duration=DURATION', Float, 'Transition duration(seconds)')
+  opt.on('--delay=DELAY', Float, 'Delayed time to change the state of a light from previous one(seconds)')
 }
 options = parser.getopts(ARGV)
 
