@@ -2,7 +2,6 @@ require 'hue'
 
 class Lighter
   MAX_HUE = 65535
-  FPS = 30
 
   attr_reader :transiting
 
