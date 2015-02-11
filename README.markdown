@@ -42,7 +42,8 @@ Make hand far away to increase linghtening.
 Movie
 -----
 
-http://youtu.be/WjlF6BD04zs
+* Simple use - http://youtu.be/WjlF6BD04zs
+* Multiple lights - http://youtu.be/lI_N7zFvIgo
 
 Slides
 ------
